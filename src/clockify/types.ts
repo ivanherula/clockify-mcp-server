@@ -64,6 +64,20 @@ export interface Tag {
   archived: boolean;
 }
 
+export interface Task {
+  id: string;
+  name: string;
+  projectId: string;
+  workspaceId: string;
+  assigneeIds?: string[];
+  estimate?: string;
+  status?: string;
+  duration?: string;
+  billable?: boolean;
+  hourlyRate?: { amount: number; currency: string };
+  budgetEstimate?: number;
+}
+
 export interface TimeInterval {
   start: string;
   end?: string | null;

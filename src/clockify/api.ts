@@ -8,6 +8,7 @@ import type {
   StopTimerBody,
   SubmitApprovalBody,
   Tag,
+  Task,
   TimeEntry,
   UpdateTimeEntryBody,
   User,
@@ -143,6 +144,21 @@ export function deleteTimeEntry(
   entryId: string,
 ): Promise<void> {
   return client.delete<void>(`/workspaces/${wsId}/time-entries/${entryId}`);
+}
+
+export function getTasks(
+  client: ClockifyClient,
+  wsId: string,
+  projectId: string,
+  params?: ListParams,
+): Promise<Task[]> {
+  const query = buildQuery({
+    name: params?.name,
+    page: params?.page ?? 1,
+    'page-size': params?.pageSize ?? 50,
+    archived: params?.archived,
+  });
+  return client.get<Task[]>(`/workspaces/${wsId}/projects/${projectId}/tasks${query}`);
 }
 
 export function submitForApproval(
