@@ -254,5 +254,25 @@ export function createServer(apiKey: string, defaultWorkspaceId?: string): McpSe
     },
   );
 
+  server.tool(
+    'submit_for_approval',
+    'Submit time entries for manager approval for a given week/period',
+    {
+      startTime: z.string().datetime().describe('Start date of the period to submit (ISO 8601 UTC)'),
+      period: z
+        .enum(['WEEKLY', 'SEMI_MONTHLY', 'MONTHLY'])
+        .describe('Period type'),
+    },
+    async ({ startTime, period }) => {
+      try {
+        const [wsId, userId] = await Promise.all([resolveWorkspaceId(), resolveUserId()]);
+        const request = await api.submitForApproval(client, wsId, userId, { startTime, period });
+        return toolResult(request);
+      } catch (err) {
+        return toolError(err);
+      }
+    },
+  );
+
   return server;
 }
