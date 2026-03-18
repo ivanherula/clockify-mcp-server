@@ -274,5 +274,26 @@ export function createServer(apiKey: string, defaultWorkspaceId?: string): McpSe
     },
   );
 
+  server.tool(
+    'get_tasks',
+    'List tasks within a project',
+    {
+      projectId: z.string().describe('Project ID'),
+      name: z.string().optional().describe('Filter by task name'),
+      archived: z.boolean().optional().describe('Include archived tasks'),
+      page: z.number().int().min(1).default(1).describe('Page number'),
+      pageSize: z.number().int().min(1).max(200).default(50).describe('Results per page'),
+    },
+    async ({ projectId, name, archived, page, pageSize }) => {
+      try {
+        const wsId = await resolveWorkspaceId();
+        const tasks = await api.getTasks(client, wsId, projectId, { name, archived, page, pageSize });
+        return toolResult(tasks);
+      } catch (err) {
+        return toolError(err);
+      }
+    },
+  );
+
   return server;
 }
