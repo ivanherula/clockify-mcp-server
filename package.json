@@ -1,6 +1,6 @@
 {
   "name": "@ivanherula/clockify-mcp-server",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "MCP server for Clockify time tracking",
   "type": "module",
   "main": "./build/index.js",
