@@ -22,7 +22,7 @@ export class ClockifyClient {
   }
 
   private async request<T>(method: string, path: string, body?: unknown): Promise<T> {
-    const url = `${BASE_URL}${path}`;
+    const url = path.startsWith('http') ? path : `${BASE_URL}${path}`;
     const response = await fetch(url, {
       method,
       headers: this.headers,

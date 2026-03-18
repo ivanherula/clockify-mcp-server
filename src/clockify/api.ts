@@ -1,9 +1,12 @@
 import type { ClockifyClient } from './client.js';
 import type {
+  ApprovalRequest,
+  ApprovalPeriod,
   Client,
   CreateTimeEntryBody,
   Project,
   StopTimerBody,
+  SubmitApprovalBody,
   Tag,
   TimeEntry,
   UpdateTimeEntryBody,
@@ -140,4 +143,16 @@ export function deleteTimeEntry(
   entryId: string,
 ): Promise<void> {
   return client.delete<void>(`/workspaces/${wsId}/time-entries/${entryId}`);
+}
+
+export function submitForApproval(
+  client: ClockifyClient,
+  wsId: string,
+  userId: string,
+  body: SubmitApprovalBody,
+): Promise<ApprovalRequest> {
+  return client.post<ApprovalRequest>(
+    `https://app.clockify.me/api/workspaces/${wsId}/users/${userId}/submit-approval-request`,
+    body,
+  );
 }

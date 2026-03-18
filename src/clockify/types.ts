@@ -107,3 +107,20 @@ export interface UpdateTimeEntryBody {
 export interface StopTimerBody {
   end: string;
 }
+
+export type ApprovalPeriod = 'WEEKLY' | 'SEMI_MONTHLY' | 'MONTHLY';
+
+export interface SubmitApprovalBody {
+  startTime: string;
+  period: ApprovalPeriod;
+}
+
+export interface ApprovalRequest {
+  id: string;
+  workspaceId: string;
+  dateRange?: { start: string; end: string };
+  owner?: { userId: string; userName: string; timeZone: string; startOfWeek: string };
+  status?: { state: string; updatedBy: string; updatedAt: string; note: string };
+  creator?: { userId: string; userName: string; userEmail: string };
+  approvalStatuses?: Record<string, string>;
+}
